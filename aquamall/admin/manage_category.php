@@ -70,6 +70,7 @@
                                                 <th>ID</th>
                                                 <th>Name</th>
                                                 <th>Image</th>
+                                                <th>view</th>
                                                 <th>Edit</th>
                                                 <th>Delete</th>
                                             </tr>
@@ -83,6 +84,7 @@
 													echo "<td>{$row['cat_id']}</td>";
 													echo "<td>{$row['cat_name']}</td>";
 													echo "<td><img width='100px' src='upload/{$row['cat_img']}'/></td>";
+													echo "<td><a href = 'view_prod.php?cat_id={$row['cat_id']}' class='btn btn-success'>View</a></td>";
 													echo "<td><a href='edit_cat.php?cat_id={$row['cat_id']}&cat_img={$row['cat_img']}' class='btn btn-warning' data-toggle = 'modal' data-target = '#largemodal'>Edit</a></td>";
 													echo "<td><a href = 'delete_cat.php?cat_id={$row['cat_id']}' class='btn btn-danger'>Delete</a></td>";
 													echo "</tr>";
