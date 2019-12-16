@@ -1,4 +1,35 @@
-<!DOCTYPE html>
+<?php
+
+	session_start();
+	include("../includes/connection.php");
+	if(isset($_POST['submit'])){
+		
+		$email    = $_POST['email'];
+		$password = $_POST['password'];
+		
+		if(!empty($email) && !empty($password)){
+			
+			$query = "SELECT * FROM admin WHERE admin_email = '$email' AND admin_password = '$password'";
+			
+			$result = mysqli_query($conn, $query);
+			$row    = mysqli_fetch_assoc($result);
+			
+			if($row['admin_id']){
+				$_SESSION['admin_id'] = $row['admin_id'];
+				$_SESSION['fullname'] = $row['fullname'];
+				$_SESSION['admin_email'] = $row['admin_email'];
+				header("location:index.php");
+			}
+			else{
+				$msg = "You are not authorized";
+			}
+		}
+		
+	}
+
+?>
+
+
 <html lang="en">
 
 <head>
@@ -47,6 +78,11 @@
                             </a>
                         </div>
                         <div class="login-form">
+							<?php
+								if(isset($msg))
+									echo "<div class='alert alert-danger'>$msg</div>" 
+							
+							?>
                             <form action="" method="post">
                                 <div class="form-group">
                                     <label>Email Address</label>
@@ -56,28 +92,28 @@
                                     <label>Password</label>
                                     <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
                                 </div>
-                                <div class="login-checkbox">
+                                <!--<div class="login-checkbox">
                                     <label>
                                         <input type="checkbox" name="remember">Remember Me
                                     </label>
                                     <label>
                                         <a href="#">Forgotten Password?</a>
                                     </label>
-                                </div>
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
-                                <div class="social-login-content">
+                                </div>-->
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit" name="submit">sign in</button>
+                                <!--<div class="social-login-content">
                                     <div class="social-button">
                                         <button class="au-btn au-btn--block au-btn--blue m-b-20">sign in with facebook</button>
                                         <button class="au-btn au-btn--block au-btn--blue2">sign in with twitter</button>
                                     </div>
-                                </div>
+                                </div>-->
                             </form>
-                            <div class="register-link">
+                            <!--<div class="register-link">
                                 <p>
                                     Don't you have account?
                                     <a href="#">Sign Up Here</a>
                                 </p>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>

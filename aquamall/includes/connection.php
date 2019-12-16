@@ -1,7 +1,7 @@
 <?php
 
 		//define the database
-		include("../includes/config.php");
+		include("config.php");
 		//open connection
 		$conn = mysqli_connect("localhost","root", "", "aquamall");
 		

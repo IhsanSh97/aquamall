@@ -6,6 +6,9 @@
 	
 	mysqli_query($conn, $query2);
 
+	/*echo $_GET['cat_name'];
+die;*/
+
 	include("../includes/admin_header.php"); 
 ?>
 			<div class="main-content">
@@ -16,7 +19,7 @@
      <div class="col-md-12">
          <!-- DATA TABLE-->
          <div class="table-responsive m-b-40">
-			 <h21 align="center">Product view</h1>
+			 <h1 align="center"><?php echo $_GET['cat_name']; ?></h1>
               <table class="table table-borderless table-data3">
                     <thead>
                           <tr>

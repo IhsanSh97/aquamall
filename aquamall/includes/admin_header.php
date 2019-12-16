@@ -1,3 +1,13 @@
+<?php
+
+	session_start();
+	if(!isset($_SESSION['admin_id'])){
+		header("location:admin_login.php");
+		exit();
+	}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -405,7 +415,12 @@
                                             <img src="images/icon/avatar-01.jpg" alt="John Doe" />
                                         </div>
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">john doe</a>
+                                            <a class="js-acc-btn" href="#">
+												<?php 
+													if(isset($_SESSION['admin_id']))
+														echo $_SESSION['fullname']; 
+												?>
+											</a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
@@ -416,9 +431,19 @@
                                                 </div>
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">john doe</a>
+                                                        <a href="#">
+															<?php 
+																if(isset($_SESSION['admin_id']))
+																	echo $_SESSION['fullname']; 
+															?>
+														</a>
                                                     </h5>
-                                                    <span class="email">johndoe@example.com</span>
+                                                    <span class="email">
+														<?php 
+															if(isset($_SESSION['admin_id']))
+																echo $_SESSION['admin_email']; 
+														?>
+													</span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
@@ -436,8 +461,9 @@
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="#">
-                                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                                                <a href="admin_logout.php">
+                                                    <i class="zmdi zmdi-power"></i>Logout
+												</a>
                                             </div>
                                         </div>
                                     </div>
