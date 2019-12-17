@@ -6,6 +6,10 @@
 		$email    = $_POST['email'];
 		$password = $_POST['password'];
 		$number   = $_POST['number'];
+		$city     = $_POST['city'];
+		$country  = $_POST['cntry'];
+		$street   = $_POST['strt'];
+		$building = $_POST['bldng'];
 		
 		$q      = "SELECT * FROM customer";
 		$result = mysqli_query($conn, $q);
@@ -13,16 +17,22 @@
 		while($row = mysqli_fetch_assoc($result)){
 			
 			if($email != $row['email']){
-				$reg_query = "INSERT INTO customer(name, email, password, mobile) VALUES('$name', '$email', '$password', '$number')";
+				$reg_query = "INSERT INTO customer(name, email, password, mobile, city, country, street, building) VALUES('$name', '$email', '$password', '$number', '$city','$country', '$street', '$building')";
 
-				$reg_result = mysqli_query($conn, $reg_query);
-
+				/*echo $reg_query;
+				die;*/
+				
+				mysqli_query($conn, $reg_query);
+				
+				$que = "SELECT * FROM customer";
+				$reg_result = mysqli_query($conn, $que);
+				
 				while($reg_row = mysqli_fetch_assoc($reg_result)){
 					
 					$_SESSION['cust_id'] = $reg_row['customer_id'];
-					
 					echo '<script>window.top.location="index.php"</script>';
 				}
+				
 			}
 			else
 				$msg = "This email is already registered!";
@@ -46,7 +56,7 @@
 
 
 			if($cust['customer_id']){
-				$_SESSION['customet_id'] = $cust['customer_id'];
+				$_SESSION['cust_id'] = $cust['customer_id'];
 				$_SESSION['name']        = $cust['name'];
 				/*header("location:index.php");*/
 				
@@ -109,6 +119,22 @@
 								<div class="col-12 mb-3">
                                     <label for="company">Password <span>*</span></label>
                                     <input type="password" name="password" class="form-control" id="company" value="" required>
+                                </div>
+								<div class="col-12 mb-3">
+                                    <label for="country">Country <span>*</span></label>
+                                    <input type="text" name="cntry" class="form-control" id="country" value="">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="city">City <span>*</span></label>
+                                    <input type="text" name="city" class="form-control" id="city" value="">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="state">Street <span>*</span></label>
+                                    <input type="text" name="strt" class="form-control" id="state" value="">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="phone_number">Building <span>*</span></label>
+                                    <input type="text" name="bldng" class="form-control" id="phone_number" min="0" value="">
                                 </div>
 							</div>
 							<button href="#" name="regist" class="btn essence-btn">Regist</button>

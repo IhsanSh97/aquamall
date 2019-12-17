@@ -1,17 +1,19 @@
 <?php 
 include("includes/puplic_header.php"); 
 
-	/*$reg_result = mysqli_query($conn, $reg_query);
+	//customer data
+	$query = "SELECT * FROM customer 
+			  WHERE customer_id = {$_SESSION['cust_id']}";	
 
-	while($reg_row = mysqli_fetch_assoc($reg_result)){
-					
-		$_SESSION['cust_id'] = $reg_row['customer_id'];
-										
-		$adrs_query = "INSERT INTO address(country, city street, building, customer_id) VALUES('$country', '$city', '$street', '$building', '{$_SESSION['cust_id']}')";
-					
-		mysqli_query($conn, $adrs_query);
-	}*/
+	$rslt  = mysqli_query($conn, $query);
 
+	$row = mysqli_fetch_assoc($rslt);
+
+
+	
+
+	
+	
 ?>
 <!-- ##### Breadcumb Area Start ##### -->
     <div class="breadcumb_area bg-img" style="background-image: url(img/bg-img/breadcumb.jpg);">
@@ -43,40 +45,31 @@ include("includes/puplic_header.php");
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="first_name">Full Name <span>*</span></label>
-                                    <input type="text" class="form-control" id="first_name" value="" required>
+                                    <input type="text" name="name" class="form-control" id="first_name" value="<?php echo $row['name'] ?>" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="last_name">Phone <span>*</span></label>
-                                    <input type="text" class="form-control" id="last_name" value="" required>
+                                    <input type="text" name="phone" class="form-control" id="last_name" value="<?php echo $row['mobile'] ?>" required>
                                 </div>
                                 <div class="col-12 mb-3">
                                     <label for="country">Country <span>*</span></label>
-                                    <select class="w-100" id="country">
-                                        <option value="usa">United States</option>
-                                        <option value="uk">United Kingdom</option>
-                                        <option value="ger">Germany</option>
-                                        <option value="fra">France</option>
-                                        <option value="ind">India</option>
-                                        <option value="aus">Australia</option>
-                                        <option value="bra">Brazil</option>
-                                        <option value="cana">Canada</option>
-                                    </select>
+                                    <input type="text" name="cntry" class="form-control" id="city" value="<?php echo $row['country'] ?>">
                                 </div>
                                 <div class="col-12 mb-3">
-                                    <label for="city">Town/City <span>*</span></label>
-                                    <input type="text" class="form-control" id="city" value="">
+                                    <label for="city">City <span>*</span></label>
+                                    <input type="text" name="city" class="form-control" id="city" value="<?php echo $row['city'] ?>">
                                 </div>
                                 <div class="col-12 mb-3">
                                     <label for="state">Street <span>*</span></label>
-                                    <input type="text" class="form-control" id="state" value="">
+                                    <input type="text" name="strt" class="form-control" id="state" value="<?php echo $row['street'] ?>">
                                 </div>
                                 <div class="col-12 mb-3">
                                     <label for="phone_number">Building <span>*</span></label>
-                                    <input type="text" class="form-control" id="phone_number" min="0" value="">
+                                    <input type="text" name="bldng" class="form-control" id="phone_number" min="0" value="<?php echo $row['building'] ?>">
                                 </div>
                                 <div class="col-12 mb-4">
                                     <label for="email_address">Email Address <span>*</span></label>
-                                    <input type="email" class="form-control" id="email_address" value="">
+                                    <input type="email" name="email" class="form-control" id="email_address" value="<?php echo $row['email'] ?>">
                                 </div>
 
                                 <div class="col-12">
@@ -108,10 +101,35 @@ include("includes/puplic_header.php");
 
                         <ul class="order-details-form mb-4">
                             <li><span>Product</span> <span>Total</span></li>
-                            <li><span>Cocktail Yellow dress</span> <span>$59.90</span></li>
-                            <li><span>Subtotal</span> <span>$59.90</span></li>
-                            <li><span>Shipping</span> <span>Free</span></li>
-                            <li><span>Total</span> <span>$59.90</span></li>
+							<?php
+								//product invoice data
+	
+								$price = 0;
+								if(isset($_SESSION['product_id']) && count($_SESSION['product_id']) > 0){
+
+									foreach($_SESSION['product_id'] as $prod_id){
+										
+										$query2 = "SELECT * FROM product WHERE product_id = $prod_id";
+										$result2 = mysqli_query($conn, $query2);
+										
+										while($row2 = mysqli_fetch_assoc($result2)){
+											
+											echo "<li><span>{$row2['product_name']}</span><span>$ {$row2['product_price']}</span></li>";
+											
+
+											
+											
+											$price += $row2['product_price']; 
+										}
+									}
+									echo "<li><span>Shipping</span> <span>Free</span></li>
+												<li><span>Total</span><span>$ ";
+									echo $price."</span>";
+								}
+                            	
+							?>
+								
+							</li>
                         </ul>
 
                         <div id="accordion" role="tablist" class="mb-4">
@@ -128,8 +146,10 @@ include("includes/puplic_header.php");
                                 </div>
                             </div>
                         </div>
-
-                        <a href="#" class="btn essence-btn">Place Order</a>
+						<form action="order.php" method="post">
+							<button name="order" class="btn essence-btn">Place Order</button>
+						</form>
+                        
                     </div>
                 </div>
             </div>

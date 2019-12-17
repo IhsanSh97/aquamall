@@ -3,16 +3,13 @@ session_start();
 include("includes/connection.php");
 
 	if(isset($_POST['check'])/* && isset($_SESSION['customer_id'])*/){
-		if(isset($_SESSION['customer_id'])){
-			/*echo '<script>window.top.location="checkout.php"</script>';*/
-			echo $_SESSION['customer_id'];
-			die;
-			/*header("location:checkout.php");*/
+		if(isset($_SESSION['cust_id'])){
+			echo '<script>window.top.location="checkout.php"</script>';
+			
 		}
 		else{
 			echo '<script>window.top.location="login.php"</script>';
-			echo $_SESSION['customer_id'];
-			die;
+			
 		}
 	}
 
@@ -115,7 +112,7 @@ include("includes/connection.php");
             <div class="header-meta d-flex clearfix justify-content-end">
                 <!-- Search Area -->
                 <div class="search-area">
-                    <form action="#" method="post">
+                    <form action="#" method="get">
                         <input type="search" name="search" id="headerSearch" placeholder="Type for search">
                         <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </form>
@@ -127,6 +124,10 @@ include("includes/connection.php");
                 <!-- User Login Info -->
                 <div class="user-login-info">
                     <a href="login.php"><img src="img/core-img/user.svg" alt=""></a>
+                </div>
+				<!-- User Logout -->
+                <div class="user-login-info">
+                    <a href="logout.php">Logout</a>
                 </div>
                 <!-- Cart Area -->
                 <div class="cart-area">
